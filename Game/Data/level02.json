@@ -1,0 +1,128 @@
+﻿{
+	"Name": "level",
+	"Metadata": { },
+	"Objects": [
+
+    {
+      "Type": "CollisionGrid",
+      "Data": {
+        "CollisionMatrix": [
+          [
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        ]
+      }
+    },
+    {
+      "Type": "TileMapObject",
+      "Data": {
+        "FileName": "untitled"
+      }
+    },
+    {
+      "Type": "EntityObject",
+      "Data": {
+        "FileName": "axe",
+        "Position": "0, 0",
+        "Rotation": "0.0",
+        "Scale":  "0.5"
+      }
+    },
+    {
+      "Type": "EntityObject",
+      "Data": {
+        "FileName": "axe",
+        "Position": "0, 1",
+        "Rotation": "0.0",
+        "Scale":  "0.5"
+      }
+    }
+	]
+}
