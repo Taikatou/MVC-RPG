@@ -1,0 +1,3 @@
+[submodule "SmallGame"]
+	path = SmallGame
+	url = https://github.com/Taikatou/SmallGame

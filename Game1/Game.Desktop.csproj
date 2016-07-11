@@ -85,6 +85,7 @@
     <Compile Include="Controllers\ControllerSingleton.cs" />
     <Compile Include="Engine\WorldScene.cs" />
     <Compile Include="Game.cs" />
+    <Compile Include="GUI\Hud.cs" />
     <Compile Include="Loader\AssetLoader.cs" />
     <Compile Include="Loader\Loader.cs" />
     <Compile Include="Objects\EntityObject.cs" />
@@ -152,17 +153,13 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\SmallGame\SmallCommons\SmallCommons.csproj">
-      <Project>{6621c778-3855-498c-b01b-498cadf06cb7}</Project>
-      <Name>SmallCommons</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\SmallGame\SmallGame\SmallGame.csproj">
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SmallGame\SmallGame\SmallGame.csproj">
       <Project>{b756520b-eb2c-4195-a0ec-f9051de4bea7}</Project>
       <Name>SmallGame</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Content.Builder.targets" />
