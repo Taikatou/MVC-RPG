@@ -45,19 +45,9 @@ namespace FrameWork.Render
                 render_list.Add(new FpsRenderAble(content));
             }
         }
-        Vector2 Offset
-        {
-            get
-            {
-                float height = Current.TileHeight / 2;
-                float width = Current.TileWidth / 2;
-                return new Vector2(height, width);
-            }
-        }
         public void Draw(SpriteBatch sprite_batch)
         {
-            Vector2 focus = SceneManager.Focus;
-            camera.LookAt(focus + Offset);
+            camera.LookAt(cached_scene.Focus);
 
             sprite_batch.Begin(transformMatrix: camera.GetViewMatrix());
             cached_scene.Draw(sprite_batch, camera);
