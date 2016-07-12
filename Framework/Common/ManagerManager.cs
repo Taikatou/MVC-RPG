@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 
-namespace FrameWork.Common
+namespace Game.Common
 {
     public class ManagerManager
     {

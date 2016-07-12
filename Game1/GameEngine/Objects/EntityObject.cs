@@ -1,12 +1,11 @@
-﻿using Game.Controllers;
+﻿using FrameWork.GameEngine.Controllers;
 using Microsoft.Xna.Framework;
 using SmallGame.GameObjects;
-using Game.Engine;
 using System.Diagnostics;
-using Game.Common;
+using FrameWork.Common;
 using System.Collections.Generic;
 
-namespace Game.Objects
+namespace FrameWork.GameEngine.Objects
 {
     public enum Facing { Right, Left, Up, Down };
     public class EntityObject : GameObject

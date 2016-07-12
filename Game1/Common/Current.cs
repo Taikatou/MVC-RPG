@@ -1,33 +1,20 @@
-﻿using Game.Engine;
+﻿using FrameWork.Load;
 using Microsoft.Xna.Framework;
 using MonoGame.Extended.Maps.Tiled;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Game.Common
+namespace FrameWork.Common
 {
     public class Current
     {
-        protected static TiledMap tiled_map;
-        public static TiledMap TiledMap
+        public TiledMap TiledMap;
+
+        public Current(string fileName)
         {
-            get
-            {
-                if (tiled_map == null)
-                {
-                    WorldScene world = SceneManager.CurrentWorld;
-                    tiled_map = AssetLoader.LoadMap(Game.Instance.renderer.content, world.TileMap.FileName);
-                    size = new Vector2(TileWidth, TileHeight); ;
-                }
-                return tiled_map;
-            }
+            TiledMap = AssetLoader.LoadMap(Game.Instance.renderer.content, fileName);
+            size = new Vector2(TileWidth, TileHeight);
         }
 
-        public static TiledTileLayer TileCollisionLayer
+        public TiledTileLayer TileCollisionLayer
         {
             get
             {
@@ -35,7 +22,7 @@ namespace Game.Common
             }
         }
 
-        public static bool TileMapCollision(Vector2 position)
+        public bool TileMapCollision(Vector2 position)
         {
             TiledTile t = TileCollisionLayer.GetTile((int)(position.X), (int)(position.Y));
             if(t == null)
@@ -45,33 +32,28 @@ namespace Game.Common
             return t.Id != 0;
         }
 
-        public static void ResetTileMap()
-        {
-            tiled_map = null;
-        }
-
-        public static float TileHeight
+        public int TileHeight
         {
             get
             {
                 return TiledMap.TileHeight;
             }
         }
-        public static float TileWidth
+        public int TileWidth
         {
             get
             {
                 return TiledMap.TileWidth;
             }
         }
-        public static int TileMapHeight
+        public int TileMapHeight
         {
             get
             {
                 return TiledMap.Height;
             }
         }
-        public static int TileMapWidth
+        public int TileMapWidth
         {
             get
             {
@@ -79,9 +61,9 @@ namespace Game.Common
             }
         }
 
-        private static Vector2 size;
+        private Vector2 size;
 
-        public static Vector2 Size
+        public Vector2 Size
         {
             get
             {

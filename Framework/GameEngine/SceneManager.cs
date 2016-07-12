@@ -10,6 +10,10 @@ namespace Game.Engine
     {
         private Stack<WorldScene> loaded_scenes;
 
+        private WorldScene current_World;
+
+        private EntityObject player;
+
         public static Vector2 Focus
         {
             get
@@ -17,10 +21,6 @@ namespace Game.Engine
                 return Instance.player.Position * Current.Size;
             }
         }
-
-        private WorldScene current_World;
-
-        private EntityObject player;
 
         public static WorldScene CurrentWorld
         {

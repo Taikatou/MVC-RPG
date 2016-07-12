@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Game.Render
+namespace FrameWork.Render
 {
     public class RendererConfig
     {

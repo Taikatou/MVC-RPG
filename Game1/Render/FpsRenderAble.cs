@@ -1,12 +1,13 @@
 ﻿using System;
-using Game.Common;
+using FrameWork.Common;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended;
 using MonoGame.Extended.BitmapFonts;
+using FrameWork.Load;
 
-namespace Game.Render
+namespace FrameWork.Render
 {
     public class FpsRenderAble: BaseManager, RenderAble
     {

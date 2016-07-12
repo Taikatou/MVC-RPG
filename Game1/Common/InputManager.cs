@@ -1,8 +1,9 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using MonoGame.Extended.InputListeners;
+using FrameWork.Load;
 
-namespace Game.Common
+namespace FrameWork.Common
 {
     class InputManager : BaseManager
     {

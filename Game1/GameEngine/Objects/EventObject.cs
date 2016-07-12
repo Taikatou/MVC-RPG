@@ -1,7 +1,7 @@
 ﻿using SmallGame.GameObjects;
 using System.Collections.Generic;
 
-namespace Game.Objects
+namespace FrameWork.GameEngine.Objects
 {
     public enum EventType { ChangeScene, TextBox };
     public enum EventTrigger { Interact, Step };

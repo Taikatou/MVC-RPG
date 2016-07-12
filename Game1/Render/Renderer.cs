@@ -6,11 +6,11 @@ using Microsoft.Xna.Framework.Content;
 
 using System.Collections.Generic;
 
-using Game.Engine;
 using Microsoft.Xna.Framework;
-using Game.Common;
+using FrameWork.Common;
+using FrameWork.GameEngine;
 
-namespace Game.Render
+namespace FrameWork.Render
 {
     /// <summary>
     /// Renderer for game, TODO add configuration changes for different options

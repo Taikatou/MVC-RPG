@@ -1,8 +1,7 @@
 ﻿using System;
 
-namespace FrameWork
+namespace Framework
 {
-#if WINDOWS || LINUX
     /// <summary>
     /// The main class.
     /// </summary>
@@ -14,9 +13,8 @@ namespace FrameWork
         [STAThread]
         static void Main()
         {
-            using (Game.Instance = new Game())
-                Game.Instance.Run();
+            using (var game = new GameRunner())
+                game.Run();
         }
     }
-#endif
 }

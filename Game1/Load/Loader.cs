@@ -1,12 +1,13 @@
-﻿using Game.Controllers;
-using Game.Engine;
+﻿using FrameWork.GameEngine;
+using FrameWork.GameEngine.Controllers;
+using FrameWork.GUI;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using MonoGame.Extended.InputListeners;
 using System;
 using System.Diagnostics;
 
-namespace Game
+namespace FrameWork.Load
 {
     public class Loader
     {
@@ -14,7 +15,7 @@ namespace Game
         public enum InputType { None, KeyBoard, GamePad };
         private static InputType input_type = InputType.None;
 
-        public static Vector2 StringToVector(string vector_string)
+        public static Vector2 StringToVector2(string vector_string)
         {
             string[] split_vector_string = vector_string.Split(',');
             int x = Int32.Parse(split_vector_string[0]), y = Int32.Parse(split_vector_string[1]);
@@ -24,7 +25,14 @@ namespace Game
         public static InputListenerManager LoadInputManager()
         {
             InputListenerManager input_manager = new InputListenerManager();
-            // var mouse_listener = input_manager.AddListener(new MouseListenerSettings());
+            var mouse_listener = input_manager.AddListener(new MouseListenerSettings());
+            mouse_listener.MouseClicked += (sender, args) =>
+            {
+                if(Hud.Instance != null)
+                {
+                    Hud.Instance.Click(args.Position);
+                }
+            };
             var keyboard_listener = input_manager.AddListener(new KeyboardListenerSettings());
             keyboard_listener.KeyPressed += (sender, args) =>
             {

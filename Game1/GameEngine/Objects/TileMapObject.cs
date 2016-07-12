@@ -1,6 +1,6 @@
 ﻿using SmallGame.GameObjects;
 
-namespace Game.Objects
+namespace FrameWork.GameEngine.Objects
 {
     public class TileMapObject : GameObject
     {

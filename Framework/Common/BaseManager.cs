@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 
-namespace FrameWork.Common
+namespace Game.Common
 {
     public abstract class BaseManager
     {

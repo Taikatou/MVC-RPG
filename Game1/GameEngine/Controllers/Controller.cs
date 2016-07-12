@@ -1,4 +1,4 @@
-﻿namespace Game.Controllers
+﻿namespace FrameWork.GameEngine.Controllers
 {
     public class Controller
     {

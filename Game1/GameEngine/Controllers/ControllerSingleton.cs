@@ -1,8 +1,7 @@
-﻿namespace Game.Controllers
+﻿namespace FrameWork.GameEngine.Controllers
 {
     public class ControllerSingleton: Controller
     {
-
         protected static Controller instance = null;
         public static Controller Instance
         {

@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
-using Game.Objects;
 using System.Diagnostics;
+using FrameWork.Load;
+using FrameWork.GameEngine.Objects;
+using FrameWork.Load;
 
-namespace Game.Common
+namespace FrameWork.Common
 {
     public class EventManager: BaseManager
     {
@@ -39,7 +41,7 @@ namespace Game.Common
                 switch(e.event_type)
                 {
                     case EventType.ChangeScene:
-                        Vector2 end_point = Loader.StringToVector(e.Values["EndPoint"]);
+                        Vector2 end_point = Loader.StringToVector2(e.Values["EndPoint"]);
                         Game.Instance.PushWorld(e.Values["WorldName"], end_point);
                         break;
                     case EventType.TextBox:

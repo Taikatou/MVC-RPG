@@ -1,16 +1,16 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Game.Render;
+using FrameWork.Render;
 
 using SmallGame;
-using Game.Objects;
-using Game.Engine;
+using FrameWork.GameEngine.Objects;
 using MonoGame.Extended.ViewportAdapters;
-using Game.Common;
+using FrameWork.Common;
 using System;
 using System.Diagnostics;
+using FrameWork.GameEngine;
+using FrameWork.GUI;
 
-namespace Game
+namespace FrameWork
 {
     public class Game : CoreGame
     {
@@ -68,9 +68,9 @@ namespace Game
         {
             try
             {
-                GraphicsDevice.Clear(Color.Black);
                 base.Draw(game_time);
                 renderer.Draw(SpriteBatch);
+                Hud.Instance.Draw(SpriteBatch);
             }
             catch(Exception e)
             {

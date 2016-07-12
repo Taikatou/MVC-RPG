@@ -1,9 +1,10 @@
-﻿using Game.Objects;
+﻿using FrameWork.Load;
+using FrameWork.GameEngine.Objects;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Game.Render
+namespace FrameWork.Render
 {
     class RenderEntity
     {
