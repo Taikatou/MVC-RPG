@@ -28,10 +28,8 @@ namespace FrameWork.Load
             var mouse_listener = input_manager.AddListener(new MouseListenerSettings());
             mouse_listener.MouseClicked += (sender, args) =>
             {
-                if(Hud.Instance != null)
-                {
-                    Hud.Instance.Click(args.Position);
-                }
+                    Debug.WriteLine("Click here: " + args.Position);
+                    Game.Instance.hud?.Click(args.Position);
             };
             var keyboard_listener = input_manager.AddListener(new KeyboardListenerSettings());
             keyboard_listener.KeyPressed += (sender, args) =>
@@ -42,8 +40,7 @@ namespace FrameWork.Load
             {
                 KeyAction(args.Key, false);
             };
-            var game_pad_settings = new GamePadListenerSettings(PlayerIndex.One);
-            var game_pad_listener = input_manager.AddListener(game_pad_settings);
+            var game_pad_listener = input_manager.AddListener(new GamePadListenerSettings(PlayerIndex.One));
             game_pad_listener.ButtonDown += (sender, args) =>
             {
                 GamePadButton(args.Button, true);

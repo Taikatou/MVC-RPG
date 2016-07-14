@@ -3,7 +3,6 @@ using Microsoft.Xna.Framework;
 using System.Diagnostics;
 using FrameWork.Load;
 using FrameWork.GameEngine.Objects;
-using FrameWork.Load;
 
 namespace FrameWork.Common
 {

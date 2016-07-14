@@ -11,6 +11,19 @@ namespace FrameWork.GameEngine
     public class WorldScene : GameLevel
     {
         protected Dictionary<int, string> entity_controllers;
+        public Dictionary<Vector2, EntityObject> entity_spatial_hash;
+        public Dictionary<Vector2, EntityObject> EntitySpatialHash
+        {
+            get
+            {
+                if(entity_spatial_hash == null)
+                {
+                    entity_spatial_hash = new Dictionary<Vector2, EntityObject>();
+                    ReLoadSpatialHash();
+                }
+                return entity_spatial_hash;
+            }
+        }
         private Current current;
         public Current Current
         {
@@ -24,6 +37,14 @@ namespace FrameWork.GameEngine
             }
         }
 
+        public void ReLoadSpatialHash()
+        {
+            EntitySpatialHash.Clear();
+            foreach (EntityObject e in Entities)
+            {
+                EntitySpatialHash[e.Position] = e;
+            }
+        }
 
         public WorldScene()
         {
@@ -62,36 +83,71 @@ namespace FrameWork.GameEngine
             }
         }
 
+        public EntityObject TryGetEntityHash(Vector2 position)
+        {
+            if (EntitySpatialHash.ContainsKey(position))
+            {
+                return EntitySpatialHash[position];
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public bool EntityCollision(Vector2 position)
+        {
+            EntityObject e = TryGetEntityHash(position);
+            bool collision = !(e == null || !e.Collidable);
+            return collision;
+        }
+
+        public bool CollisionGridTest(Vector2 position, bool Moving = false)
+        {
+            int x = (int)(position.X), y = (int)(position.Y);
+            bool collision = Current.TileMapCollision(x, y) || EntityCollision(position);
+            return collision;
+        }
+
+        public void CheckStepOn(EntityObject e, Vector2 position)
+        {
+            EntityObject collide_entity = TryGetEntityHash(position);
+            if (collide_entity != null && !collide_entity.Collidable)
+            {
+                collide_entity.Interact(EventTrigger.Step, e);
+            }
+        }
+
         public void Update(EntityObject e)
         {
+            List<Vector2> keys_to_remove = new List<Vector2>();
             if (e.request_movement)
             {
                 bool in_map = e.NewPosition.X >= 0 && e.NewPosition.Y >= 0 &&
                               e.NewPosition.X < Current.TileMapWidth &&e.NewPosition.Y < Current.TileMapHeight;
-                if (in_map && !Current.TileMapCollision(e.NewPosition))
+                if (in_map && !CollisionGridTest(e.NewPosition))
                 {
                     //Request Movement
-                    EntityObject collide_entity = FindEntity(e.NewPosition);
-                    if (collide_entity == null)
-                    {
-                        e.Position = e.NewPosition;
-                    }
-                    else if (!collide_entity.Collidable)
-                    {
-                        e.Position = e.NewPosition;
-                        collide_entity.Interact(EventTrigger.Step, e);
-                    }
+                    CheckStepOn(e, e.NewPosition);
+                    keys_to_remove.Add(e.Position);
+                    e.Position = e.NewPosition;
+                    EntitySpatialHash[e.Position] = e;
                 }
                 e.request_movement = false;
             }
             if (e.request_interact)
             {
-                EntityObject entity = FindEntity(e.interact_with_pos);
+                EntityObject entity = TryGetEntityHash(e.interact_with_pos);
                 if (entity != null)
                 {
                     entity.Interact(EventTrigger.Interact, e);
                 }
                 e.request_interact = false;
+            }
+            //Remove all keys all movment for this tick is over
+            foreach(Vector2 v in keys_to_remove)
+            {
+                EntitySpatialHash.Remove(v);
             }
         }
 
@@ -102,13 +158,6 @@ namespace FrameWork.GameEngine
                 e.Update(game_time);
                 Update(e);
             }
-        }
-
-        public EntityObject FindEntity(Vector2 position)
-        {
-            int x = (int)position.X, y = (int)position.Y;
-            EntityObject e = Entities.Find(o => o.Position.Y == y && o.Position.X == x);
-            return e;
         }
 
         public void MoveEntity(string id, Vector2 position)

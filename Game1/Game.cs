@@ -16,8 +16,10 @@ namespace FrameWork
     {
         public static Game Instance;
         public Renderer renderer;
-        private ViewportAdapter viewport_adapter;
         private ManagerManager managers;
+        public Hud hud;
+
+        public int Width = 800, Height = 480;
 
         public Game()
         {
@@ -25,6 +27,7 @@ namespace FrameWork
             Window.AllowUserResizing = true;
             managers = ManagerManager.Instance;
             InputManager input_manager = new InputManager();
+            // IsFixedTimeStep = false;
         }
 
         protected override void Initialize()
@@ -34,8 +37,7 @@ namespace FrameWork
                 StandardGameObjectParser.For<TileMapObject>(),
                 StandardGameObjectParser.For<EntityObject>()
             );
-            this.viewport_adapter = new BoxingViewportAdapter(Window, GraphicsDevice, 800, 480);
-            BoxingViewportAdapter viewport_adapter = new BoxingViewportAdapter(Window, GraphicsDevice, 800, 480);
+            BoxingViewportAdapter viewport_adapter = new BoxingViewportAdapter(Window, GraphicsDevice, Width, Height);
             renderer = new Renderer(viewport_adapter, Content);
             PushWorld("level01.json");
 
@@ -49,6 +51,7 @@ namespace FrameWork
             WorldScene world_level = null;
             DataLoader.LoadAndWatch<WorldScene>(world_name, (level) => world_level = SetLevel(level));
             SceneManager.Instance.PushWorld(world_level);
+            hud = new Hud(world_level);
             renderer.LoadNewScene(world_level);
         }
 
@@ -70,7 +73,7 @@ namespace FrameWork
             {
                 base.Draw(game_time);
                 renderer.Draw(SpriteBatch);
-                Hud.Instance.Draw(SpriteBatch);
+                hud.Draw(SpriteBatch);
             }
             catch(Exception e)
             {

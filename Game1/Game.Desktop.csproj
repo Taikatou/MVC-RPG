@@ -86,6 +86,7 @@
     <Compile Include="GameEngine\WorldScene.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="GUI\Hud.cs" />
+    <Compile Include="GUI\HudElement.cs" />
     <Compile Include="Load\AssetLoader.cs" />
     <Compile Include="Load\Loader.cs" />
     <Compile Include="GameEngine\Objects\EntityObject.cs" />

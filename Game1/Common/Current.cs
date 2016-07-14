@@ -22,14 +22,19 @@ namespace FrameWork.Common
             }
         }
 
-        public bool TileMapCollision(Vector2 position)
+        public bool TileMapCollision(int x, int y)
         {
-            TiledTile t = TileCollisionLayer.GetTile((int)(position.X), (int)(position.Y));
+            TiledTile t = TileCollisionLayer.GetTile(x, y);
             if(t == null)
             {
                 return false;
             }
             return t.Id != 0;
+        }
+
+        public bool TileMapCollision(Vector2 position)
+        {
+            return TileMapCollision((int)(position.X), (int)(position.Y));
         }
 
         public int TileHeight

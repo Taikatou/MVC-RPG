@@ -5,9 +5,6 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
 
 using System.Collections.Generic;
-
-using Microsoft.Xna.Framework;
-using FrameWork.Common;
 using FrameWork.GameEngine;
 
 namespace FrameWork.Render
