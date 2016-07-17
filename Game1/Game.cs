@@ -27,7 +27,6 @@ namespace FrameWork
             Window.AllowUserResizing = true;
             managers = ManagerManager.Instance;
             InputManager input_manager = new InputManager();
-            // IsFixedTimeStep = false;
         }
 
         protected override void Initialize()
@@ -35,7 +34,8 @@ namespace FrameWork
             base.Initialize();
             DataLoader.RegisterParser(
                 StandardGameObjectParser.For<TileMapObject>(),
-                StandardGameObjectParser.For<EntityObject>()
+                StandardGameObjectParser.For<EntityObject>(),
+                StandardGameObjectParser.For<NPCObject>()
             );
             BoxingViewportAdapter viewport_adapter = new BoxingViewportAdapter(Window, GraphicsDevice, Width, Height);
             renderer = new Renderer(viewport_adapter, Content);

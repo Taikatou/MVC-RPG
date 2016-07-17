@@ -11,6 +11,7 @@ namespace FrameWork.GameEngine
     public class WorldScene : GameLevel
     {
         protected Dictionary<int, string> entity_controllers;
+        public Dictionary<string, Vector2> MovingEntities;
         public Dictionary<Vector2, EntityObject> entity_spatial_hash;
         public Dictionary<Vector2, EntityObject> EntitySpatialHash
         {
@@ -49,6 +50,7 @@ namespace FrameWork.GameEngine
         public WorldScene()
         {
             entity_controllers = new Dictionary<int, string>();
+            MovingEntities = new Dictionary<string, Vector2>();
             entity_controllers.Add(ControllerSingleton.Instance.Id, "player");
         }
         public TileMapObject TileMap
@@ -64,13 +66,10 @@ namespace FrameWork.GameEngine
         {
             get
             {
-                return Objects.GetObjects<EntityObject>();
+                List<EntityObject> to_return = Objects.GetObjects<EntityObject>();
+                to_return.AddRange(Objects.GetObjects<NPCObject>());
+                return to_return;
             }
-        }
-
-        public void AddEntity(EntityObject e)
-        {
-            Objects.Add(e);
         }
 
         public void ControllerUpdate(Controller c)
@@ -79,7 +78,7 @@ namespace FrameWork.GameEngine
             EntityObject e = Entities.Find(x => x.Id.Equals(id));
             if (e != null)
             {
-                e.ControllerEvent(c);
+                e.controller = c;
             }
         }
 
@@ -104,8 +103,7 @@ namespace FrameWork.GameEngine
 
         public bool CollisionGridTest(Vector2 position, bool Moving = false)
         {
-            int x = (int)(position.X), y = (int)(position.Y);
-            bool collision = Current.TileMapCollision(x, y) || EntityCollision(position);
+            bool collision = Current.TileMapCollision(position) || EntityCollision(position);
             return collision;
         }
 
@@ -118,36 +116,39 @@ namespace FrameWork.GameEngine
             }
         }
 
-        public void Update(EntityObject e)
+        public void CheckEntityChange(EntityObject e)
         {
-            List<Vector2> keys_to_remove = new List<Vector2>();
-            if (e.request_movement)
+            Vector2 new_position = e.Position + e.FacingPosition;
+            if (e.RequestMovement)
             {
-                bool in_map = e.NewPosition.X >= 0 && e.NewPosition.Y >= 0 &&
-                              e.NewPosition.X < Current.TileMapWidth &&e.NewPosition.Y < Current.TileMapHeight;
-                if (in_map && !CollisionGridTest(e.NewPosition))
+                bool in_map = new_position.X >= 0 && new_position.Y >= 0 &&
+                              new_position.X < Current.TileMapWidth && new_position.Y < Current.TileMapHeight;
+                if (in_map && !CollisionGridTest(new_position))
                 {
                     //Request Movement
-                    CheckStepOn(e, e.NewPosition);
-                    keys_to_remove.Add(e.Position);
-                    e.Position = e.NewPosition;
+                    CheckStepOn(e, new_position);
+                    MovingEntities[e.Id] = e.Position;
+                    e.Position = new_position;
+                    e.Timer = e.TimerResetValue;
                     EntitySpatialHash[e.Position] = e;
                 }
-                e.request_movement = false;
+                e.RequestMovement = false;
             }
-            if (e.request_interact)
+            if(e.RequestMovementComplete)
             {
-                EntityObject entity = TryGetEntityHash(e.interact_with_pos);
+                e.RequestMovementComplete = false;
+                Debug.WriteLine("Remove entity");
+                EntitySpatialHash.Remove(MovingEntities[e.Id]);
+                MovingEntities.Remove(e.Id);
+            }
+            if (e.RequestInteract)
+            {
+                EntityObject entity = TryGetEntityHash(new_position);
                 if (entity != null)
                 {
                     entity.Interact(EventTrigger.Interact, e);
                 }
-                e.request_interact = false;
-            }
-            //Remove all keys all movment for this tick is over
-            foreach(Vector2 v in keys_to_remove)
-            {
-                EntitySpatialHash.Remove(v);
+                e.RequestInteract = false;
             }
         }
 
@@ -156,7 +157,7 @@ namespace FrameWork.GameEngine
             foreach (EntityObject e in Entities)
             {
                 e.Update(game_time);
-                Update(e);
+                CheckEntityChange(e);
             }
         }
 

@@ -9,7 +9,7 @@
       }
     },
     {
-      "Type": "EntityObject",
+      "Type": "NPCObject",
       "Data": {
         "FileName": "axe",
         "Position": "2, 1",

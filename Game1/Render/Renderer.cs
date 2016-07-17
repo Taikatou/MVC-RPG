@@ -44,11 +44,7 @@ namespace FrameWork.Render
         }
         public void Draw(SpriteBatch sprite_batch)
         {
-            camera.LookAt(cached_scene.Focus);
-
-            sprite_batch.Begin(transformMatrix: camera.GetViewMatrix());
             cached_scene.Draw(sprite_batch, camera);
-            sprite_batch.End();
             sprite_batch.Begin();
             foreach (RenderAble r in render_list)
             {

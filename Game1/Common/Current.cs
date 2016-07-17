@@ -25,7 +25,7 @@ namespace FrameWork.Common
         public bool TileMapCollision(int x, int y)
         {
             TiledTile t = TileCollisionLayer.GetTile(x, y);
-            if(t == null)
+            if (t == null)
             {
                 return false;
             }

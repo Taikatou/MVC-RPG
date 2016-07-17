@@ -20,7 +20,7 @@ namespace FrameWork.Render
 
         public void Draw(SpriteBatch sprite_batch, Rectangle rect)
         {
-            Texture2D texture = entity_texture[(int)base_entity.Direction];
+            Texture2D texture = entity_texture[(int)base_entity.Facing];
             sprite_batch.Draw(texture, rect, null, Color.White, base_entity.Rotation, new Vector2(0, 0), SpriteEffects.None, 0);
         }
     }

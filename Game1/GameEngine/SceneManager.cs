@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using System.Diagnostics;
-using FrameWork.GameEngine;
 using FrameWork.GameEngine.Objects;
 
 namespace FrameWork.GameEngine
@@ -15,11 +14,11 @@ namespace FrameWork.GameEngine
 
         private EntityObject player;
 
-        public static Vector2 Focus
+        public static EntityObject Focus
         {
             get
             {
-                return Instance.player.Position;
+                return Instance.player;
             }
         }
 
@@ -50,9 +49,9 @@ namespace FrameWork.GameEngine
         {
             loaded_scenes.Clear();
             PushScene(child);
-            player = new EntityObject(player.Position, player.FileName, player.Direction, player.Rotation, player.Collidable);
+            player = new EntityObject(player.Position, player.FileName, player.Facing, player.Rotation, player.Collidable);
             Debug.WriteLine("PushWorld : " + child.Name);
-            child.AddEntity(player);
+            child.Objects.Add(player);
         }
 
         public override void Update(GameTime game_time)

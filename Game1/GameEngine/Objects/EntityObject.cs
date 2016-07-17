@@ -7,18 +7,15 @@ using System.Collections.Generic;
 
 namespace FrameWork.GameEngine.Objects
 {
-    public enum Facing { Right, Left, Up, Down };
     public class EntityObject : GameObject
     {
-        public Facing Direction;
+        public Direction Facing;
 
         public string FileName;
 
         public float Rotation;
 
         public Vector2 Position;
-
-        public Vector2 NewPosition;
 
         public Controller controller = null;
 
@@ -28,71 +25,103 @@ namespace FrameWork.GameEngine.Objects
 
         public Dictionary<string, string> OnStepEvents;
 
-        private int timer;
+        public bool RequestMovement = false;
 
-        public bool request_movement = false;
+        public bool RequestInteract = false;
 
-        public bool request_interact = false;
+        public bool RequestMovementComplete = false;
 
-        public Vector2 interact_with_pos;
+        public int Timer;
+
+        public int TimerResetValue = 300;
+
+        public int TurnTimer;
+
+        public bool CurrentlyMoving;
+
+        public Vector2 FacingPosition
+        {
+            get
+            {
+                return DirectionMapper.GetDirection(Facing);
+            }
+        }
 
         public EntityObject()
         {
-            timer = 0;
         }
 
-        public EntityObject(Vector2 Position, string FileName, Facing Direction=Facing.Up, float Rotation=0.0f, bool Collidable=true) : base()
+        public EntityObject(Vector2 Position, string FileName, Direction Facing = Direction.Up, float Rotation=0.0f, bool Collidable=true) : base()
         {
             this.Position = Position;
             this.FileName = FileName;
             this.Collidable = Collidable;
-            this.Direction = Direction;
+            this.Facing = Facing;
             this.Rotation = Rotation;
             this.Type = "EntityObject";
             this.Id = "player";
         }
 
-        public void Update(GameTime game_time)
+        public virtual void Update(GameTime game_time)
         {
-            if (controller != null && timer <= 0)
+            if (Timer <= 0)
             {
-                NewPosition = new Vector2(Position.X, Position.Y);
-                if (controller.A)
+                if (controller != null)
                 {
-                    Interact();
-                }
-                if (controller.B)
-                {
-                }
-                if (controller.Up)
-                {
-                    NewPosition += new Vector2(0, -1);
-                    Direction = Facing.Up;
-                }
-                else if (controller.Left)
-                {
-                    NewPosition += new Vector2(-1, 0);
-                    Direction = Facing.Left;
-                }
-                else if (controller.Down)
-                {
-                    NewPosition += new Vector2(0, 1);
-                    Direction = Facing.Down;
-                }
-                else if (controller.Right)
-                {
-                    NewPosition += new Vector2(1, 0);
-                    Direction = Facing.Right;
-                }
-                if(NewPosition != Position)
-                {
-                    timer = 400;
-                    request_movement = true;
+                    if (controller.A)
+                    {
+                        RequestInteract = true;
+                    }
+                    if (controller.B)
+                    {
+                        TimerResetValue = 150;
+                    }
+                    else
+                    {
+                        TimerResetValue = 300;
+                    }
+                    Direction facing = controller.Facing;
+                    if (facing != Direction.None)
+                    {
+                        if (Facing == facing)
+                        {
+                            if(TurnTimer <= 0)
+                            {
+                                RequestMovement = true;
+                            }
+                            else
+                            {
+                                TurnTimer -= game_time.ElapsedGameTime.Milliseconds;
+                            }
+                        }
+                        else
+                        {
+                            //Change Directions
+                            if (!CurrentlyMoving)
+                            {
+                                TurnTimer = 100;
+                                CurrentlyMoving = true;
+                            }
+                            Facing = facing;
+                        }
+                    }
+                    else
+                    {
+                        CurrentlyMoving = false;
+                    }
                 }
             }
-            else if (timer > 0)
+            else
             {
-                timer -= game_time.ElapsedGameTime.Milliseconds;
+                if (Timer > 0)
+                {
+                    Timer -= game_time.ElapsedGameTime.Milliseconds;
+                }
+                if(!RequestMovementComplete && Timer <= 0)
+                {
+                    RequestMovementComplete = true;
+                    Debug.WriteLine("Request complete");
+                }
             }
         }
 
@@ -117,32 +146,6 @@ namespace FrameWork.GameEngine.Objects
                     Debug.WriteLine("Event type not recognised value: " + event_type.ToString());
                     break;
             }
-        }
-
-        public void Interact()
-        {
-            interact_with_pos = Position;
-            switch(Direction)
-            {
-                case Facing.Right:
-                    interact_with_pos.X++;
-                    break;
-                case Facing.Left:
-                    interact_with_pos.X--;
-                    break;
-                case Facing.Up:
-                    interact_with_pos.Y--;
-                    break;
-                case Facing.Down:
-                    interact_with_pos.Y++;
-                    break;
-            }
-            request_interact = true;
-        }
-
-        public void ControllerEvent(Controller controller)
-        {
-            this.controller = controller;
         }
     }
 }

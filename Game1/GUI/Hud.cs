@@ -1,5 +1,4 @@
-﻿using FrameWork.Common;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 using MonoGame.Extended.Sprites;
@@ -25,7 +24,7 @@ namespace FrameWork.GUI
         public Hud(WorldScene w) : this()
         {
             AddHudElement("spike_ball", () => Console.WriteLine("Click"),
-                          new Vector2(Game.Instance.Width * 0.8f, Game.Instance.Height * 0.2f),
+                          new Vector2(Game.Instance.Width * 0.9f, Game.Instance.Height * 0.15f),
                           new Vector2(1, 1));
         }
 

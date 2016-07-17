@@ -1,6 +1,5 @@
 ﻿using FrameWork.GameEngine;
 using FrameWork.GameEngine.Controllers;
-using FrameWork.GUI;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using MonoGame.Extended.InputListeners;
@@ -11,7 +10,6 @@ namespace FrameWork.Load
 {
     public class Loader
     {
-
         public enum InputType { None, KeyBoard, GamePad };
         private static InputType input_type = InputType.None;
 

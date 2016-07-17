@@ -1,4 +1,6 @@
-﻿namespace FrameWork.GameEngine.Controllers
+﻿using FrameWork.Common;
+
+namespace FrameWork.GameEngine.Controllers
 {
     public class Controller
     {
@@ -9,6 +11,33 @@
         public bool A = false;
         public bool B = false;
         public int Id;
+
+        public Direction Facing
+        {
+            get
+            {
+                if(Right)
+                {
+                    return Direction.Right;
+                }
+                else if (Left)
+                {
+                    return Direction.Left;
+                }
+                else if (Up)
+                {
+                    return Direction.Up;
+                }
+                else if (Down)
+                {
+                    return Direction.Down;
+                }
+                else
+                {
+                    return Direction.None;
+                }
+            }
+        }
 
         protected static int ControllerCount = 0;
 
